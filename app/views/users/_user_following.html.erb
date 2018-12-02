@@ -1,0 +1,8 @@
+
+  <% @users.each do |u| %>
+  <div class="following">    
+      <%= gravatar_for u %>
+      <%= link_to u.name %>
+  </div>
+  <% end %>
+ 

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>
+      <%= gravatar_for @user %>  
+      <%= @user.name %> - <%= @user.position %><br><br>
+      Mail: <%= @user.email %><br>
+      Location: <%= @user.location %><br>
+      Age: <%= @user.age %><br><br>
+      </h1>
+      <%= @user.description %><br><br>
+    <%= render 'follow_form' if logged_in? %>
+    </section>
+    <section class="stats">
+    <%= render 'shared/stats' %><br><br>
+    </section>
+    <% if @user.microposts.any? %>
+    <h4>Microposts (<%= @user.microposts.count %>)</h4><br>
+    <ol class="microposts">
+      <%= render @microposts %>
+    </ol>
+    <%= will_paginate @microposts %>
+  <% end %>
+  </aside>
+  <div class="col-md-8">
+    <h3>Garally</h3><br> 
+    <%= @doc.xpath('//img').each do |node| %>
+    <% if @user.position == 'Photographer' %>
+    <%= image_tag(node.attribute('src').value, :size =>'200x150') %>
+    <% else %>
+    <%= image_tag(node.attribute('src').value, :size =>'170x150') %>
+    <% end %>
+    <% end %>
+  </div>
+</div>
+
+<%= link_to '編集', edit_user_path(@user) %> |
+<%= link_to '戻る', users_path %>

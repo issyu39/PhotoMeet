@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Events</h1>
+
+    <% @events.each do |event| %>
+    <div class="event">
+    <ul>
+    <div class="event-content">
+     <h3 class="event-title"><%= event.title %></h3><br>
+     <p class="event-text"><%= event.content %><br></p><br>   
+     <h4><%= event.location %></h4><br>
+       
+     <%= event.date %>
+    </div>  
+    <%= link_to '編集', edit_event_path(event) %> |
+    <%= link_to '削除', event, method: :delete, data: { confirm: 'Are you sure?' } %>      
+    </ul>
+    </div>
+    <% end %>
+    
+<br><br>
+
+<%= link_to 'イベントを登録する', new_event_path %>

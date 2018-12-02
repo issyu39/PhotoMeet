@@ -1,0 +1,36 @@
+   <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <%= link_to "PhotoMeet", root_path, id: "logo" %>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <% if logged_in? %>
+            <li><%= link_to "撮影会一覧", events_path %></li>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                ユーザ一覧 <b class="caret"></b>
+              </a>
+             <ul class="dropdown-menu">
+               <li><%= link_to "Photographer", users_path(:position => 'Photographer') %></li>
+               <li><%= link_to "Model", users_path(:position => 'Model') %></li>
+            </ul>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                アカウント <b class="caret"></b>
+              </a>
+             <ul class="dropdown-menu">
+               <li><%= link_to "プロフィール", current_user %></li>
+               <li><%= link_to "設定", edit_user_path(current_user) %></li>
+               <li class="divider"></li>
+               <li>
+               <%= link_to "ログアウト", logout_path, method: :delete %>
+               </li>
+              </ul>
+            </li>
+            <% else %>
+             <li><%= link_to "新規登録", signup_path %></li>
+             <li><%= link_to "ログイン", login_path %></li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+   </header>

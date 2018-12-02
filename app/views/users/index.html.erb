@@ -1,0 +1,76 @@
+
+<p id="notice"><%= notice %></p>
+
+<% if params[:position] == 'Photographer' %> 
+<% @title = 'Photographer' %>
+<% elsif params[:position] == 'Model' %>
+<% @title = 'Model' %>
+<% end %>  
+
+<% provide(:title, @title) %>
+<h1><%= @title %></h1>
+
+<div class="row">
+  <div class="search_form">
+    <%= render 'users/search_form' %>
+  </div>
+</div>
+
+
+<%= will_paginate %>
+
+
+<ul class="users">
+ <% unless @users.empty? %>
+
+ <% if params[:position] == 'Photographer' || params[:position] == 'Model'%>
+ 
+   <% @users.each do |user| %> 
+  
+    <% if params[:position] == 'Photographer' %>    
+     <% if user.position == "Photographer" %>
+      <li>
+       <%= gravatar_for user %> 
+       <%= link_to user.name, user %>
+       <% if current_user.admin? && !current_user?(user) %>
+       | <%= link_to "delete", user, method: :delete,
+                                    data: { confirm: "You sure?" } %>
+       <% end %> <br> 
+       <%= user.location %> 
+       <%= user.age %>
+      </li> 
+     <% end %>
+    <% end %>
+   
+    <% if params[:position] == 'Model' %>
+     <% if user.position == "Model" %>
+      <li>
+       <%= gravatar_for user %> 
+       <%= link_to user.name, user %>
+       <% if current_user.admin? && !current_user?(user) %>
+       | <%= link_to "delete", user, method: :delete,
+                                   data: { confirm: "You sure?" } %>
+       <% end %> <br> 
+       <%= user.location %> 
+       <%= user.age %>
+      </li> 
+     <% end %>
+    <% end %>
+   
+  <% end %>
+   
+ <% else %>
+  <%= render @users %>
+
+ <% end %>
+  
+<% else %>
+ <h4>
+  Couldn't find any user.<br>
+  Please check username you are looking for.
+ </h4>
+<% end %>
+
+</ul>
+
+ <%= will_paginate %>

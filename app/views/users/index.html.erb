@@ -23,54 +23,54 @@
 <ul class="users">
  <% unless @users.empty? %>
 
- <% if params[:position] == 'Photographer' || params[:position] == 'Model'%>
+   <% if params[:position] == 'Photographer' || params[:position] == 'Model'%>
  
-   <% @users.each do |user| %> 
+     <% @users.each do |user| %> 
   
-    <% if params[:position] == 'Photographer' %>    
-     <% if user.position == "Photographer" %>
-      <li>
-       <%= gravatar_for user %> 
-       <%= link_to user.name, user %>
-       <% if current_user.admin? && !current_user?(user) %>
-       | <%= link_to "delete", user, method: :delete,
+       <% if params[:position] == 'Photographer' %>    
+         <% if user.position == "Photographer" %>
+           <li>
+             <%= gravatar_for user %> 
+             <%= link_to user.name, user %>
+               <% if current_user.admin? && !current_user?(user) %>
+                 | <%= link_to "delete", user, method: :delete,
                                     data: { confirm: "You sure?" } %>
-       <% end %> <br> 
-       <%= user.location %> 
-       <%= user.age %>
-      </li> 
-     <% end %>
-    <% end %>
+               <% end %> <br> 
+             <%= user.location %> 
+             <%= user.age %>
+           </li> 
+         <% end %>
+       <% end %>
    
-    <% if params[:position] == 'Model' %>
-     <% if user.position == "Model" %>
-      <li>
-       <%= gravatar_for user %> 
-       <%= link_to user.name, user %>
-       <% if current_user.admin? && !current_user?(user) %>
-       | <%= link_to "delete", user, method: :delete,
+       <% if params[:position] == 'Model' %>
+         <% if user.position == "Model" %>
+           <li>
+             <%= gravatar_for user %> 
+             <%= link_to user.name, user %>
+               <% if current_user.admin? && !current_user?(user) %>
+                 | <%= link_to "delete", user, method: :delete,
                                    data: { confirm: "You sure?" } %>
-       <% end %> <br> 
-       <%= user.location %> 
-       <%= user.age %>
-      </li> 
-     <% end %>
+               <% end %> <br> 
+             <%= user.location %> 
+             <%= user.age %>
+           </li> 
+         <% end %>
+       <% end %>
+   
     <% end %>
-   
-  <% end %>
-   
- <% else %>
-  <%= render @users %>
-
- <% end %>
   
-<% else %>
- <h4>
-  Couldn't find any user.<br>
-  Please check username you are looking for.
- </h4>
-<% end %>
+  <% else %>
+    <%= render @users %>
+
+  <% end %>
+  
+ <% else %>
+   <h4>
+     Couldn't find any user.<br>
+     Please check username you are looking for.
+   </h4>
+  <% end %>
 
 </ul>
 
- <%= will_paginate %>
+<%= will_paginate %>

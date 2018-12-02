@@ -5,18 +5,14 @@ class UsersController < ApplicationController
   before_action :correct_user,   only: [:edit, :update, :destroy]
   before_action :admin_user,     only: :destroy
 
-  def index 
-    @users = User.paginate(page:params[:page])
-
+  def index   
     if params[:q] && params[:q].reject { |key, value| value.blank? }.present?
       @q = User.ransack(search_params, activated_true: true)
       @title = "Search Result"
     else
       @q = User.ransack(activated_true: true)
     end
-
     @users = @q.result.paginate(page: params[:page])
-
   end
 
   def show
@@ -25,24 +21,23 @@ class UsersController < ApplicationController
 
     require 'open-uri'
     require 'nokogiri'
-     
+ 
     #スクレイピング対象URL
     if @user.position == "Photographer"
-     @url = 'https://search.yahoo.co.jp/image/search?p=nature&ei=UTF-8&fr=top_ga1_sa'
+      @url = 'https://search.yahoo.co.jp/image/search?p=nature&ei=UTF-8&fr=top_ga1_sa'
     elsif @user.position == "Model"
-     @url = 'https://search.yahoo.co.jp/image/search?p=portrait+girl&ei=UTF-8&fr=top_ga1_sa'
+      @url = 'https://search.yahoo.co.jp/image/search?p=portrait+girl&ei=UTF-8&fr=top_ga1_sa'
     else
     end
 
     @html = open(@url) do |f|
-      # 対象サイトの文字コード取得
-      @charset = f.charset
-      # 対象サイトのHTML読み込み
-      f.read
+    # 対象サイトの文字コード取得
+    @charset = f.charset
+    # 対象サイトのHTML読み込み
+    f.read
     end
-     
+
     @doc = Nokogiri::HTML.parse(@html, nil, @charset)
-  
   end
 
   def new
@@ -110,17 +105,16 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    
     def user_params
       params.require(:user).permit(:name, :email, :location, :age, :position, :description, :password, :password_confirmation)
     end
-    
+
     def search_params
       params.require(:q).permit(:name_cont)
     end
 
-     # ログイン済みユーザーかどうか確認
-     def logged_in_user
+    # ログイン済みユーザーかどうか確認
+    def logged_in_user
       unless logged_in?
         store_location
         flash[:danger] = "ログインしてください"
@@ -128,18 +122,17 @@ class UsersController < ApplicationController
       end
     end
     
-    # 正しいユーザーかどうか確認
-    def correct_user
+     # 正しいユーザーかどうか確認
+     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
-    end
+     end
     
      # 管理者かどうか確認
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
-
-  end
+     def admin_user
+       redirect_to(root_url) unless current_user.admin?
+     end
+end
      
 
 
